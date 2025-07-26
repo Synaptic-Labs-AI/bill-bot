@@ -1,0 +1,82 @@
+{
+  "name": "bill-bot-integration-tests",
+  "version": "1.0.0",
+  "description": "Comprehensive integration tests for Bill Bot using real services",
+  "type": "module",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:database": "jest --testPathPattern=database",
+    "test:backend": "jest --testPathPattern=backend",
+    "test:frontend": "jest --testPathPattern=frontend",
+    "test:e2e": "jest --testPathPattern=e2e",
+    "test:performance": "jest --testPathPattern=performance",
+    "test:ci": "jest --ci --coverage --watchAll=false",
+    "test:setup": "node setup/test-database-setup.js",
+    "test:teardown": "node setup/test-database-teardown.js",
+    "playwright:install": "playwright install",
+    "playwright:test": "playwright test",
+    "lint": "eslint . --ext .ts,.js",
+    "lint:fix": "eslint . --ext .ts,.js --fix"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "eventsource": "^2.0.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@playwright/test": "^1.40.1",
+    "@types/eventsource": "^1.1.12",
+    "@types/jest": "^29.5.8",
+    "@types/node": "^20.10.5",
+    "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "eslint": "^8.55.0",
+    "jest": "^29.7.0",
+    "jest-environment-node": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.3.3"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "extensionsToTreatAsEsm": [".ts"],
+    "globals": {
+      "ts-jest": {
+        "useESM": true
+      }
+    },
+    "moduleNameMapping": {
+      "^@/(.*)$": "<rootDir>/$1",
+      "^@backend/(.*)$": "<rootDir>/../backend/src/$1",
+      "^@database/(.*)$": "<rootDir>/../database/$1",
+      "^@frontend/(.*)$": "<rootDir>/../frontend/src/$1"
+    },
+    "setupFilesAfterEnv": ["<rootDir>/setup/jest-setup.ts"],
+    "testMatch": [
+      "**/__tests__/**/*.test.ts",
+      "**/*.test.ts"
+    ],
+    "collectCoverageFrom": [
+      "**/*.ts",
+      "!**/*.d.ts",
+      "!**/node_modules/**",
+      "!**/coverage/**",
+      "!**/fixtures/**",
+      "!**/setup/**"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"],
+    "testTimeout": 30000,
+    "maxWorkers": 4,
+    "verbose": true
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
